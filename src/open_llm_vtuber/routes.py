@@ -252,3 +252,21 @@ def init_webtool_routes(default_context_cache: ServiceContext) -> APIRouter:
             await websocket.close()
 
     return router
+
+
+def init_config_route(default_context_cache: ServiceContext) -> APIRouter:
+
+    router = APIRouter()
+
+    @router.get("/config")
+    async def get_config():
+        """get config"""
+        return default_context_cache.config
+
+    @router.post("/config")
+    async def change_config(cfg: dict):
+        """change config"""
+        await default_context_cache.refresh_config(cfg)
+        return Response(status_code=200) 
+    
+    return router

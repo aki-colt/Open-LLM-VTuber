@@ -424,6 +424,12 @@ class ServiceContext:
             )
             raise e
 
+    async def refresh_config(
+        self,
+        cfg: dict,
+    ):
+        newCfg: Config = validate_config(cfg)
+        await self.load_from_config(config=newCfg)
 
 def deep_merge(dict1, dict2):
     """
